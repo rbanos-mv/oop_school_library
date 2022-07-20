@@ -13,7 +13,7 @@ capitalized_person.correct_name
 capitalized_trimmed_person = TrimmerDecorator.new(capitalized_person)
 capitalized_trimmed_person.correct_name
 
-classroom = Classroom.new
+classroom = Classroom.new('Math')
 student = Student.new(10, classroom)
 puts student.classroom
 puts classroom.students
