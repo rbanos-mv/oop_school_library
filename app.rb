@@ -35,7 +35,7 @@ class App
 
     result = ''
     @people.each_with_index do |person, index|
-      result += "#{index}) ID: #{person.id}, Name: #{person.name}, Age: #{person.age}\n"
+      result += "#{index}) [#{person.class.name}] ID: #{person.id}, Name: #{person.name}, Age: #{person.age}\n"
     end
 
     result
@@ -87,16 +87,16 @@ class App
       return
     end
 
-    prompt = "\n#{book_list}Select a book from the following list by number: "
+    prompt = "\n#{book_list}Select a book from the previous list by number: "
     book_index = numeric_input(prompt, (0...@books.length))
 
-    prompt = "\n#{people_list}Select a person from the following list by number (not id): "
+    prompt = "\n#{people_list}Select a person from the previous list by number (not id): "
     person_index = numeric_input(prompt, (0...@people.length))
 
     print 'Date: '
     date = gets.chomp
-    person = @people[person_index - 1]
-    book = @books[book_index - 1]
+    person = @people[person_index]
+    book = @books[book_index]
     @rentals << Rental.new(person, book, date)
     puts 'Rental created successfully'
   end
