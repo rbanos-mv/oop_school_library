@@ -21,8 +21,12 @@ class Person < Nameable
     of_age? || parent_permission
   end
 
-  def add_rental(rental)
-    @rentals.push(rental) unless @rentals.include?(rental)
+  def save_rental(rental)
+    @rentals << rental unless @rentals.include?(rental)
+  end
+
+  def add_rental(book, date)
+    Rental.new(self, book, date)
   end
 
   private
