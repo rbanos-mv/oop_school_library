@@ -36,7 +36,7 @@ cd oop_school_library
 Type these commands into the terminal:
 
 ```
-irb oop_school_library.rb
+ruby main.rb
 ```
 
 ## Authors
