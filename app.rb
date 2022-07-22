@@ -18,12 +18,9 @@ class App
   def book_list
     return 'No books to list' if @books.empty?
 
-    result = ''
-    @books.each_with_index do |book, index|
-      result += "#{index}) #{book.title} by #{book.author}\n"
-    end
-
-    result
+    @books.map.with_index do |book, index|
+      "#{index}) #{book.title} by #{book.author}\n"
+    end.join
   end
 
   def list_books
@@ -33,12 +30,9 @@ class App
   def people_list
     return 'No people to list' if @people.empty?
 
-    result = ''
-    @people.each_with_index do |person, index|
-      result += "#{index}) [#{person.class.name}] ID: #{person.id}, Name: #{person.name}, Age: #{person.age}\n"
-    end
-
-    result
+    @people.map.with_index do |person, index|
+      "#{index}) [#{person.class.name}] ID: #{person.id}, Name: #{person.name}, Age: #{person.age}\n"
+    end.join
   end
 
   def list_people
