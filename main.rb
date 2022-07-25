@@ -47,7 +47,7 @@ Please choose an option by entering a number: "
     end
   end
 
-  def main
+  def run
     puts "Welcome to the School Library app!\n"
     menu
     puts 'Thank you for using this app!'
@@ -55,4 +55,4 @@ Please choose an option by entering a number: "
 end
 
 main = Main.new
-main.main
+main.run
