@@ -95,13 +95,13 @@ class App
     puts 'Rental created successfully'
   end
 
-  def person_by_id
-    loop
-    print 'ID of person: '
-    id = gets.chomp.to_i
+  def person_by_id(text)
+    loop do
+      print text
+      id = gets.chomp.to_i
 
-    @people.each_with_index do |person, index|
-      return index if person.id == id
+      found = @people.find(-> {}) { |per| per.id == id }
+      return found unless found.nil?
     end
   end
 
@@ -111,9 +111,8 @@ class App
       return
     end
 
-    person_index = person_by_id
-
-    @people[person_index].rentals.each do |rental|
+    person = person_by_id('ID of person: ')
+    person.rentals.each do |rental|
       puts "Date: #{rental.date}, Book: \"#{rental.book.title}\" by #{rental.book.author}"
     end
   end
