@@ -22,7 +22,7 @@ class Person < Nameable
   end
 
   def save_rental(rental)
-    @rentals << rental unless @rentals.include?(rental)
+    rentals << rental unless rentals.include?(rental)
   end
 
   def add_rental(book, date)
