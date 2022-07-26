@@ -19,7 +19,7 @@ class App
     return 'No books to list' if @books.empty?
 
     @books.map.with_index do |book, index|
-      "#{index}) #{book.title} by #{book.author}\n"
+      "#{index}) \"#{book.title}\" by #{book.author}\n"
     end.join
   end
 
@@ -39,35 +39,65 @@ class App
     puts people_list
   end
 
-  def create_person
+  def gets_person_info
     text = 'Do you want to create a student (1) or a teacher (2)? [Input the number]: '
     type = numeric_input(text, (1..2))
-
     print 'Age: '
     age = gets.chomp
     print 'Name: '
     name = gets.chomp
+    [type, age, name]
+  end
+
+  def gets_student_permission
+    letter = letter_input('Has parent permission? [Y/N] ', %w[Y N])
+    letter == 'Y'
+  end
+
+  def gets_teacher_specialization
+    print 'Specialization: '
+    gets.chomp
+  end
+
+  def create_person
+    type, age, name = gets_person_info
+
     if type == 1
-      letter = letter_input('Has parent permission? [Y/N] ', %w[Y N])
-      permission = letter == 'Y'
+      permission = gets_student_permission
       new_person = Student.new(age, @classroom, name, parent_permission: permission)
     else
-      print 'Specialization: '
-      specialization = gets.chomp
+      specialization = gets_teacher_specialization
       new_person = Teacher.new(age, specialization, name)
     end
     @people.push(new_person)
     puts 'Person created successfully'
   end
 
-  def create_book
+  def gets_book_info
     print 'Title: '
     title = gets.chomp
     print 'Author: '
     author = gets.chomp
+    [title, author]
+  end
+
+  def create_book
+    title, author = gets_book_info
     new_book = Book.new(title, author)
     @books.push(new_book)
     puts 'Book created successfully'
+  end
+
+  def gets_rental_info
+    prompt = "\n#{book_list}Select a book from the previous list by number: "
+    book_index = numeric_input(prompt, (0...@books.length))
+
+    prompt = "\n#{people_list}Select a person from the previous list by number (not id): "
+    person_index = numeric_input(prompt, (0...@people.length))
+
+    print 'Date: '
+    date = gets.chomp
+    [book_index, person_index, date]
   end
 
   def create_rental
@@ -81,14 +111,8 @@ class App
       return
     end
 
-    prompt = "\n#{book_list}Select a book from the previous list by number: "
-    book_index = numeric_input(prompt, (0...@books.length))
+    book_index, person_index, date = gets_rental_info
 
-    prompt = "\n#{people_list}Select a person from the previous list by number (not id): "
-    person_index = numeric_input(prompt, (0...@people.length))
-
-    print 'Date: '
-    date = gets.chomp
     person = @people[person_index]
     book = @books[book_index]
     @rentals << Rental.new(person, book, date)
