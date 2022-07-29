@@ -11,4 +11,15 @@ class Classroom
     @students << student unless @students.include?(student)
     student.classroom = self
   end
+
+  def to_json(*args)
+    {
+      JSON.create_id => self.class.name,
+      'data' => [label]
+    }.to_json(*args)
+  end
+
+  def self.json_create(object)
+    new(*object['data'])
+  end
 end
