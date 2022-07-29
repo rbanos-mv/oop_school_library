@@ -42,7 +42,6 @@ RSpec.describe Rental do
   it 'should generate the correct JSON string' do
     rental = create_rental
     json = JSON.generate(rental)
-    p json
 
     expect(json).to eq rental_json
   end
