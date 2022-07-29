@@ -9,4 +9,15 @@ class Rental
     person.save_rental(self)
     book.save_rental(self)
   end
+
+  def to_json(*args)
+    {
+      JSON.create_id => self.class.name,
+      'data' => [@person, @book, @date]
+    }.to_json(*args)
+  end
+
+  def self.json_create(object)
+    new(*object['data'])
+  end
 end
