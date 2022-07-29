@@ -6,11 +6,13 @@ require_relative 'student'
 require_relative 'teacher'
 
 class App
+  attr_accessor :books, :classroom, :people, :rentals
+
   def initialize
     @books = []
+    @classroom = Classroom.new(1)
     @people = []
     @rentals = []
-    @classroom = Classroom.new(1)
   end
 
   include InputModule
@@ -124,9 +126,15 @@ class App
       print text
       id = gets.chomp.to_i
 
-      found = @people.find(-> {}) { |per| per.id == id }
-      return found unless found.nil?
+      found = @people.find(-> {}) { |person| person.id == id }
+      return id unless found.nil?
     end
+  end
+
+  def rental_list(person_id)
+    rentals.map do |rental|
+      "Date: #{rental.date}, Book: \"#{rental.book.title}\" by #{rental.book.author}\n" if rental.person.id == person_id
+    end.join
   end
 
   def list_rentals
@@ -135,9 +143,9 @@ class App
       return
     end
 
-    person = person_by_id('ID of person: ')
-    person.rentals.each do |rental|
-      puts "Date: #{rental.date}, Book: \"#{rental.book.title}\" by #{rental.book.author}"
-    end
+    person_id = person_by_id('ID of person: ')
+    list = rental_list(person_id)
+    puts 'No rentals to list' if list.empty?
+    puts list unless list.empty?
   end
 end

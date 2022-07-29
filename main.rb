@@ -1,11 +1,14 @@
 require_relative 'app'
 require_relative 'input_module'
+require_relative 'preserve'
 
 class Main
-  attr_reader :app
+  attr_reader :app, :preserve
 
   def initialize
     @app = App.new
+    @preserve = Preserve.new(@app)
+    @preserve.load_data
   end
 
   include InputModule
@@ -42,6 +45,7 @@ Please choose an option by entering a number: "
       when 6
         app.list_rentals
       else
+        preserve.save_data
         break
       end
     end
